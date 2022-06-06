@@ -49,23 +49,23 @@
                       </div>
                       <div class="form-group">
                         <label for="exampleInputEmail3">bp</label>
-                        <input type="text" name="bp" class="form-control" id="exampleInputEmail3" placeholder="entrer bp">
+                        <input type="number" name="bp" class="form-control" id="exampleInputEmail3" placeholder="entrer bp">
                       </div>
                       <div class="form-group">
                         <label for="exampleInputEmail3">email</label>
                         <input type="text" name="email" class="form-control" id="exampleInputEmail3" placeholder="entrer l'email">
                       </div>
-                      <div class="form-group">
-                        <label for="exampleInputEmail3">Convention</label>
-                        <select  class ="form-control" name="stage" id="">
-                            @foreach($listestage as $items)
-                            <option value="{{$items->id}}">{{$items->convention}}</option>
-                            @endforeach
-                        </select>
-                      </div>
-                      
+                          <div class="form-group">
+                                <label id ="exampleInputEmail3" for=""></label>
+                                <select name="stage" id="" class="form-control">
+                                        @foreach($listestage as $data) 
+                                        <option value="{{$data->id}}">{{$data->theme}}</option>
 
-                  
+                                        @endforeach
+
+                            </select>
+                                
+                          </div>
                       <button type="submit" class="btn btn-primary mr-2">Creer</button>
                       <button class="btn btn-light">Cancel</button>
                     </form>

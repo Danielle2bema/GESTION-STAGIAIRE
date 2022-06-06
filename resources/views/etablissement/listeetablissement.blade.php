@@ -13,7 +13,7 @@
                 <div class="card">
                   <div class="card-body">
                     </p>
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-responsive">
                       <thead>
                         <tr>
                           <th> Numéro </th>
@@ -23,10 +23,9 @@
                           <th> fax </th>
                           <th>bp</th>
                           <th>email</th>
-                          <th>stages_id</th>
-                          <th>
-                                Opération
-                          </th>
+
+                          <th>theme du stage</th>
+                          <th>Opération</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -54,7 +53,7 @@
                                                   {{$listeetablissements->email}}
                                             </td>
                                             <td> 
-                                                  {{$listeetablissements->stages_id}}
+                                                  {{$listeetablissements->theme}}
                                             </td>
                                             <td> 
                                                 <div class="parent">

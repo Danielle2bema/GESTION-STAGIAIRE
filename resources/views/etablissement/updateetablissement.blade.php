@@ -50,7 +50,7 @@
                                                     <label for="exampleSelectGender">stages</label>
                                                     <select class="form-control" name="stages_idupdate" id="">
                                                             @foreach($listestage as $data)
-                                                                            <option value="{{$data->id}}">{{$data->convention}}</option>
+                                                                            <option value="{{$data->id}}">{{$data->theme}}</option>
                                                             @endforeach
                                                     </select>
                  

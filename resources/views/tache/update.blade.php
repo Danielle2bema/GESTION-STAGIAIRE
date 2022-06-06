@@ -34,13 +34,27 @@
                                     @csrf
                                         <div class="form-group">
                                             <label for="exampleInputName1">nom</label>
-                                            <input type="text" name="nomupdate" class="form-control" id="exampleInputName1" value={{$informationtaches->nom_taches}}>
+                                            <input type="text" name="nomupdate" class="form-control" id="exampleInputName1" value={{$informationtaches->nom_tache}}>
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleInputEmail3">Durée</label>
-                                            <input type="text" name="dureeupdate    " class="form-control" id="exampleInputEmail3" value="{{$informationtaches->duree_taches}}">
+                                            <label for="exampleInputEmail3">Date debut</label>
+                                            <input type="date" name="datedebutupdate" class="form-control" id="exampleInputEmail3" value="{{$informationtaches->date_debut_tache}}">
                                         </div>
 
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail3">Date fin</label>
+                                            <input type="date" name="datefinupdate" class="form-control" id="exampleInputEmail3" value="{{$informationtaches->date_fin_tache}}">
+                                        </div>
+                                          
+                                        <div class="form-group">
+                                                  <select name="stagiaireupdate" class="form-control" id="">
+                                                              @foreach($allstagiare as $data)
+                                                                      <option value="{{$data->id}}">{{$data->nom_user}} {{$data->prenom_user}}</option>
+
+                                                              @endforeach
+
+                                                  </select>
+                                        </div>
 
                                         <button type="submit" class="btn btn-primary mr-2">Modifier</button>
                                         <button class="btn btn-light">Cancel</button>

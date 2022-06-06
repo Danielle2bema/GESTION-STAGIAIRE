@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Tache;
+use App\Models\Encadreur;
+use App\Models\Stagiaire;
+
+
 
 
 class TacheController extends Controller
@@ -17,20 +21,41 @@ class TacheController extends Controller
     // function qui renvoit le formulaire d'ajout d'une tache
     public function GETPAGEADDTACHE()
     {
-        return view('tache.addtache');
+        $allstagiare = DB::table('users')
+        ->join('stagiaires','users.id','stagiaires.user_id')
+        ->select('users.nom_user','users.prenom_user','stagiaires.id')
+        ->orderBy('users.id','desc')
+        ->get();
+
+        return view('tache.addtache',[
+            'allstagiare'=>$allstagiare
+        ]);
     }
     // function de creation d'une tache 
     public function ADDTACHE(Request $request )
     {
+
+        $encadreur = auth()->user()->id;
+
+        $encadreurid = Encadreur::where('encadreurs.user_id',$encadreur);
+        $id = $encadreurid->first();
+        $idencadreur = $id->id;
         $request->validate([
-            'nom'=>['required','max:15','min:5'],
-            'duree'=>['required'],
+            'nom'=>['required','max:515','min:5'],
+            'datedebut'=>['required'],
+            'datefin'=>['required'],
+            'stagiaire'=>['required']
+
         ]
 
         );
         $tache = Tache::create([
-            'nom_taches'=>$request->nom,
-            'duree_taches'=>$request->duree
+            'nom_tache'=>$request->nom,
+            'encadreur_id'=>$idencadreur,
+            'stagiare_id'=>$request->stagiaire,
+            'date_debut_tache'=>$request->datedebut,
+            'date_fin_tache'=>$request->datefin
+            
         ]);
         session()->flash('notification.message',sprintf("Tache crée avec success"));
         session()->flash('notification.type','success');
@@ -39,7 +64,12 @@ class TacheController extends Controller
      // function qui permet de lister tache
      public function GETLISTETACHE()
      {
-             $listetache = Tache::all();
+             $listetache = DB::table('users')
+             ->join('stagiaires','users.id','=','stagiaires.user_id')
+             ->join('taches','stagiaires.id','=','taches.stagiare_id')
+             ->select('taches.*','users.nom_user','users.prenom_user')
+             ->get();
+             
              $nombre = 1;
              
              return view('tache.listetache',[
@@ -51,9 +81,16 @@ class TacheController extends Controller
      public function GETPAGEUPDATETACHE()
      {
          $id = $_GET['id'];
+
+         $allstagiare = DB::table('users')
+         ->join('stagiaires','users.id','stagiaires.user_id')
+         ->select('users.nom_user','users.prenom_user','stagiaires.id')
+         ->orderBy('users.id','desc')
+         ->get();
          $informationtache= Tache::where('id',$id)->get();
          return view('tache.update',[
              'informationtache'=>$informationtache,
+             'allstagiare'=>$allstagiare
              
          ]);  
              
@@ -63,16 +100,28 @@ class TacheController extends Controller
 
     {
             $tache= Tache::find($id);
+            $encadreur = auth()->user()->id;
+
+            $encadreurid = Encadreur::where('encadreurs.user_id',$encadreur);
+            $id = $encadreurid->first();
+            $idencadreur = $id->id;
 
             $request->validate([
                 'nomupdate'=>['required'],
-                'dureeupdate'=>['required'],
+                'datedebutupdate'=>['required'],
+                'datefinupdate'=>['required'],
+                'stagiaireupdate'=>['required'],
+
 
             ]);
 
             $tache->update([
-                    'nom_taches'=>$request->nomupdate,
-                    'duree_taches'=>$request->dureeupdate,
+                    'nom_tache'=>$request->nomupdate,
+                    'date_debut_tache'=>$request->datedebutupdate,
+                    'date_fin_tache'=>$request->datefinupdate,
+                    'encadreur_id'=>$idencadreur,
+                    'stagiare_id'=>$request->stagiaireupdate
+
             ]);
             session()->flash('notification.message',sprintf("tache modifié avec success"));
             session()->flash('notification.type','success');
@@ -88,5 +137,27 @@ class TacheController extends Controller
             session()->flash('notification.type','danger');
             
             return redirect()->route('GETLISTETACHE');
+        }
+
+
+
+        /*** funtion qui permet de lister les stages d'un stagiare */
+
+
+        public function GETLISTEDTAGEBYID()
+        {
+            $idstagiaire = auth()->user()->id;
+            $row = 1;
+            $stagiaireid = Stagiaire::where('stagiaires.user_id',$idstagiaire);
+            $id = $stagiaireid->first();
+            $ids = $id->id;
+
+            $datatache =  Tache::where('taches.stagiare_id',$ids)->get();
+
+            return view('tache.mestaches',[
+                'datatache'=>$datatache,
+                'row'=>$row
+            ]);
+
         }
     }

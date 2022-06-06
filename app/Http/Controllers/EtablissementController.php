@@ -36,7 +36,7 @@ class EtablissementController  extends  Controller
                'telephone'=>['required'],
                'fax'=>['required'],
                'email'=>['required'],
-               'bp'=>['required'],
+               'bp'=>'required',
                'stage'=>['required']
            ]);
 
@@ -59,7 +59,11 @@ class EtablissementController  extends  Controller
         // function qui permet de lister etablissement
         public function GETLISTEETABLISSEMENT()
         {
-                $listetablissement = Etablissement::all();
+                $listetablissement = DB::table('etablissements')
+                ->join('stages','etablissements.stages_id','=','stages.id')
+                ->select('stages.theme','etablissements.*')   
+                ->get() 
+            ;
                 $nombre = 1;
                 
                 return view('etablissement.listeetablissement',[

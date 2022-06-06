@@ -38,8 +38,19 @@
 /* === Import template variables === */
 /*-------------------------------------------------------------------*/
 /* === SCSS Compass Functions === */
+
+.image-carte{
+  height: 300px;
+  width: 300px;
+  border-radius: 5px;
+}
 .parent {
   display: flex;
+}
+.parents {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
 }
 @-webkit-keyframes flash {
   0% {

@@ -28,3 +28,5 @@
     <script src="{{url('assets/js/file-upload.js')}}"></script>
     <script src="{{url('assets/js/typeahead.js')}}"></script>
     <script src="{{url('assets/js/select2.js')}}"></script>
+    <script src="{{url('assets/js/print.js')}}"></script>
+

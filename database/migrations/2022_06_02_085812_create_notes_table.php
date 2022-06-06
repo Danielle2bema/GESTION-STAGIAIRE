@@ -30,13 +30,15 @@ class CreateNotesTable extends Migration
             ->onDelete('cascade')
             ->onUpdate('cascade');
             
-            $table->unsignedBigInteger('stage_id');
-            $table->foreign('stage_id')->references('id')->on('stages')
-            ->onDelete('cascade')
-            ->onUpdate('cascade');
+            // $table->unsignedBigInteger('stage_id');
+            // $table->foreign('stage_id')->references('id')->on('stages')
+            // ->onDelete('cascade')
+            // ->onUpdate('cascade');
 
             $table->integer('note_tache');
             $table->text('commentaire_tache');
+
+            $table->timestamps();
         });
     }
 

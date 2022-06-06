@@ -4,7 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Encadreur;
 use App\Models\Stagiaire;
 use App\Models\Niveau;
@@ -55,6 +62,14 @@ class UtilisateurConttoller extends Controller
 
          ]);
 
+         $filename =time(). '.'.$request->photo->extension();
+         $path = $request->file('photo')->storeAs(
+             'avatars',
+             $filename,
+             'public'
+         );
+
+
          $createuser  = User::create([
                 'matricule'=>$request->matricule,
                 'nom_user'=>$request->nom,
@@ -64,8 +79,8 @@ class UtilisateurConttoller extends Controller
                 'telephone'=>$request->telephone,
                 'email'=>$request->email,
                 'role'=>$request->role,
-                'photo'=>$request->photo,
-                'password'=>$request->password
+                'photo'=>$path,
+                'password'=>Hash::make($request->password)
                 
          ]);
 
@@ -180,7 +195,78 @@ class UtilisateurConttoller extends Controller
             return redirect()->route('GETALLUSER');
      }
 
+         
+    public function Authenticate(Request $request)
+    {
+            $request->validate([
+                'email'=>['required'],
+                'password'=>['required'],
+            ]);
+
+            if(auth()->attempt($request->only('email','password')))
+             
+                {
+                        return redirect()->route('GETDAHSBOARD');
+                }
+               return redirect()->back()->WithErrors('Les identifiants ne correspondent pas');
+    }   
+
+
+        /*
+            function de deconnexion
+    */
+    public function Logout()
+    {
+                Session::flush();
+                Auth::logout();
+                return redirect()->route('GOCONNECT');
+    }
    
+    public function GOCONNECT()
+    {
+        return view('welcome');
+    }
+
+
+    /*** function qui permet renvoie a la page pour modifier ces informations */
+
+public function GETPAGEUPDATEMESINFORMATIONS()
+{
+        return view('user.updatemesinformation');
+}
+
+
+public function UPDATEMESINFORMATIONS(Request $request)
+{
+        $userid  = auth()->user()->id;
+        $user = User::find($userid);
+
+        $request->validate([
+            'email'=>['required'],
+            'password'=>['required'],
+            'photo'=>['required']
+        ]);
+
+        $filename =time(). '.'.$request->photo->extension();
+        $path = $request->file('photo')->storeAs(
+            'avatars',
+            $filename,
+            'public'
+        );
+
+        
+        $user->update([
+            'email'=>$request->email,
+            'password'=>$request->password,
+            'photo'=>$path
+
+        ]);
+
+        session()->flash('notification.message',sprintf("Vous avez modifié vos informations avec success"));
+        session()->flash('notification.type','success');
+        return redirect()->route('GETPAGEUPDATEMESINFORMATIONS');
+}
+
     
 
 }

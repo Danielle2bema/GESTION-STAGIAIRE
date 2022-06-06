@@ -8,6 +8,7 @@ use App\Http\Controllers\TacheController;
 use App\Http\Controllers\NiveauController;
 use App\Http\Controllers\EtablissementController;
 use App\Http\Controllers\DomaineController;
+use App\Http\Controllers\NoteController;
 
 
 
@@ -26,6 +27,12 @@ use App\Http\Controllers\DomaineController;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/login',[UtilisateurConttoller::class,'GOCONNECT'])->name('GOCONNECT');
+
+Route::get('/redirection',[UtilisateurConttoller::class,'Redirection'])->name('Redirection');
+
+Route::post('/login',[UtilisateurConttoller::class,'Authenticate'])->name('Authenticate');
+Route::get('/logout',[UtilisateurConttoller::class,'Logout'])->name('Logout');
 
 Route::get('/dashboard',[UtilisateurConttoller::class,'GETDAHSBOARD'])->name('GETDAHSBOARD');
 Route::get('header',[UtilisateurConttoller::class,'GETPAGEHEADER'])->name('GETPAGEHEADER');
@@ -35,6 +42,11 @@ Route::get('header',[UtilisateurConttoller::class,'GETPAGEHEADER'])->name('GETPA
 Route::get('/add-user',[UtilisateurConttoller::class,'GETPAGEADDUSER'])->name('GETPAGEADDUSER');
 Route::get('/list-user',[UtilisateurConttoller::class,'GETALLUSER'])->name('GETALLUSER');
 Route::get('/update-user',[UtilisateurConttoller::class,'GETPAGEUPDATEUSER'])->name('GETPAGEUPDATEUSER');
+
+Route::get('/update-information',[UtilisateurConttoller::class,'GETPAGEUPDATEMESINFORMATIONS'])->name('GETPAGEUPDATEMESINFORMATIONS');
+Route::post('/update-information',[UtilisateurConttoller::class,'UPDATEMESINFORMATIONS'])->name('UPDATEMESINFORMATIONS');
+
+
 
 Route::post('/add-user',[UtilisateurConttoller::class,'ADDUSER'])->name('ADDUSER');
 Route::post('update-user/{id}',[UtilisateurConttoller::class,'UPDATEUSER'])->name('UPDATEUSER');
@@ -88,6 +100,11 @@ Route::get('/ajout-tache',[TacheController::class,'GETPAGEADDTACHE'])->name('GET
 Route::post('/ajout-taches',[TacheController::class,'ADDTACHE'])->name('ADDTACHE');
 Route::get('/liste-tache',[TacheController::class,'GETLISTETACHE'])->name('GETLISTETACHE');
 Route::get('/update-tache',[TacheController::class,'GETPAGEUPDATETACHE'])->name('GETPAGEUPDATETACHE');
+
+
+
+Route::get('/liste-mes-tache',[TacheController::class,'GETLISTEDTAGEBYID'])->name('GETLISTEDTAGEBYID');
+
 Route::post('updates-taches/{id}',[TacheController::class,'UPDATETACHE'])->name('UPDATETACHE');
 Route::post('delete-taches/{id}',[TacheController::class,'DELETETACHE'])->name('DELETETACHE');
 
@@ -106,4 +123,15 @@ Route::get('/liste-etablissement',[EtablissementController::class,'GETLISTEETABL
 Route::get('/update-etablissement',[EtablissementController::class,'GETPAGEUPDATEETABLISSEMENT'])->name('GETPAGEUPDATEETABLISSEMENT');
 Route::post('updates-etablissements/{id}',[EtablissementController::class,'UPDATEETABLISSEMENT'])->name('UPDATEETABLISSEMENT');
 Route::post('delete-etablissements/{id}',[EtablissementController::class,'DELETEETABLISSEMENT'])->name('DELETEETABLISSEMENT');
-//*** les routes  */
+
+/******************** les routes du controller notes  */
+Route::get('/ajout-note',[NoteController::class,'GETPAGEADDNOTES'])->name('GETPAGEADDNOTES');
+Route::get('voir-note-tache',[NoteController::class,'GETPAGEVOIRNOTE'])->name('GETPAGEVOIRNOTE');
+
+Route::get('imprimer',[NoteController::class,'GETPAGEIMPRIMERCARTE'])->name('GETPAGEIMPRIMERCARTE');
+
+
+Route::post('ajout-note/{idtache}/{idstagiaire}',[NoteController::class,'ADDNOTE'])->name('ADDNOTE');
+
+
+

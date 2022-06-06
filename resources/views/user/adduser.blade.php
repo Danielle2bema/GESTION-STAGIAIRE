@@ -28,7 +28,7 @@
                               {{session('notification.message')}}
                         </div>
                     @endif
-                    <form class="forms-sample" method="POST" action="{{route('ADDUSER')}}">
+                    <form class="forms-sample" method="POST" action="{{route('ADDUSER')}}" enctype="multipart/form-data">
 
                     @csrf
                     <div class="form-group">
@@ -87,7 +87,7 @@
 
                       <div class="form-group">
                         <label for="exampleInputName1">Photo</label>
-                        <input type="text" name="photo" class="form-control" id="exampleInputName1" placeholder="Entrer la photo ">
+                        <input type="file" name="photo" class="form-control" id="exampleInputName1" placeholder="Entrer la photo ">
                       </div>
 
                       <div class="form-group">

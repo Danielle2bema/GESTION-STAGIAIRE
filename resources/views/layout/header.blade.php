@@ -23,46 +23,41 @@
             <li class="nav-item nav-profile dropdown">
               <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
                 <div class="nav-profile-img">
-                  <img src="../../assets/images/faces/face28.png" alt="image">
+                  <img src="{{Storage::url(auth()->user()->photo)}}" alt="image">
                 </div>
                 <div class="nav-profile-text">
-                  <p class="mb-1 text-black">Henry Klein</p>
+                  <p class="mb-1 text-black">{{auth()->user()->nom_user}} {{auth()->user()->prenom_user}}</p>
                 </div>
               </a>
               <div class="dropdown-menu navbar-dropdown dropdown-menu-right p-0 border-0 font-size-sm" aria-labelledby="profileDropdown" data-x-placement="bottom-end">
                 <div class="p-3 text-center bg-primary">
-                  <img class="img-avatar img-avatar48 img-avatar-thumb" src="../../assets/images/faces/face28.png" alt="">
+                  <img class="img-avatar img-avatar48 img-avatar-thumb" src="{{Storage::url(auth()->user()->photo)}}" alt="">
                 </div>
                 <div class="p-2">
-                  <h5 class="dropdown-header text-uppercase pl-2 text-dark">User Options</h5>
-                  <a class="dropdown-item py-1 d-flex align-items-center justify-content-between" href="#">
-                    <span>Inbox</span>
-                    <span class="p-0">
-                      <span class="badge badge-primary">3</span>
-                      <i class="mdi mdi-email-open-outline ml-1"></i>
-                    </span>
-                  </a>
-                  <a class="dropdown-item py-1 d-flex align-items-center justify-content-between" href="#">
+                  <h5 class="dropdown-header text-uppercase pl-2 text-dark">Informations</h5>
+                  <p class="dropdown-item py-1 d-flex align-items-center justify-content-between" href="#">
+                    <span>{{auth()->user()->role}}</span>
+                   
+</p>
+                  <a class="dropdown-item py-1 d-flex align-items-center justify-content-between" href="{{route('GETPAGEUPDATEMESINFORMATIONS')}}">
                     <span>Profile</span>
                     <span class="p-0">
                       <span class="badge badge-success">1</span>
                       <i class="mdi mdi-account-outline ml-1"></i>
                     </span>
                   </a>
-                  <a class="dropdown-item py-1 d-flex align-items-center justify-content-between" href="javascript:void(0)">
-                    <span>Settings</span>
-                    <i class="mdi mdi-settings"></i>
-                  </a>
+               
                   <div role="separator" class="dropdown-divider"></div>
-                  <h5 class="dropdown-header text-uppercase  pl-2 text-dark mt-2">Actions</h5>
-                  <a class="dropdown-item py-1 d-flex align-items-center justify-content-between" href="#">
-                    <span>Lock Account</span>
-                    <i class="mdi mdi-lock ml-1"></i>
-                  </a>
-                  <a class="dropdown-item py-1 d-flex align-items-center justify-content-between" href="#">
-                    <span>Log Out</span>
-                    <i class="mdi mdi-logout ml-1"></i>
-                  </a>
+                 
+                   
+                
+                  <span>Log Out</span>
+                  <form action="{{route('Logout')}}" method="get">
+                          <button type="submit">
+                                 <i class="mdi mdi-logout ml-1"></i>
+
+                          </button>
+                  </form>
                 </div>
               </div>
             </li>
@@ -86,7 +81,9 @@
                 <span class="menu-title">Dashboard</span>
               </a>
             </li>
-            <li class="nav-item">
+          @if(auth()->user()->role==='admin')
+
+          <li class="nav-item">
               <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                 <span class="icon-bg"><i class="mdi mdi-crosshairs-gps menu-icon"></i></span>
                 <span class="menu-title">Gestion Utilisateurs</span>
@@ -100,8 +97,31 @@
               </div>
             </li>
 
+          @endif
 
-            <li class="nav-item">
+          @if(auth()->user()->role==='stagiaire')
+
+              <li class="nav-item">
+                  <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                    <span class="icon-bg"><i class="mdi mdi-crosshairs-gps menu-icon"></i></span>
+                    <span class="menu-title">Gestion de mes taches</span>
+                    <i class="menu-arrow"></i>
+                  </a>
+                  <div class="collapse" id="ui-basic">
+                    <ul class="nav flex-column sub-menu">
+                      <!-- <li class="nav-item"> <a class="nav-link" href="{{route('GETPAGEADDUSER')}}">Ajouter </a></li> -->
+                      <li class="nav-item"> <a class="nav-link" href="{{route('GETLISTEDTAGEBYID')}}">Liste de mes taches</a></li>
+                    </ul>
+                  </div>
+                </li>
+
+        @endif
+
+
+
+          @if(auth()->user()->role === 'admin' || auth()->user()->role==='encadreur')
+
+          <li class="nav-item">
               <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                 <span class="icon-bg"><i class="mdi mdi-crosshairs-gps menu-icon"></i></span>
                 <span class="menu-title">Gestion Stagiaires</span>
@@ -109,7 +129,6 @@
               </a>
               <div class="collapse" id="ui-basic">
                 <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"> <a class="nav-link" href="{{route('GETPAGEADDSTAGIAIRE')}}">>Ajouter </a></li>
                   <li class="nav-item"> <a class="nav-link" href="{{route('GETLISTESTAGIARE')}}">Liste</a></li>
                 </ul>
               </div>
@@ -148,7 +167,7 @@
               </a>
               <div class="collapse" id="ui-basic">
                 <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"> <a class="nav-link" href="../../pages/ui-features/buttons.html">Ajouter </a></li>
+                  <li class="nav-item"> <a class="nav-link" href="{{route('GETPAGEADDNOTES')}}">Ajouter </a></li>
                   <li class="nav-item"> <a class="nav-link" href="../../pages/ui-features/dropdowns.html">Modifier</a></li>
                   <li class="nav-item"> <a class="nav-link" href="../../pages/ui-features/typography.html">Liste</a></li>
                 </ul>
@@ -194,7 +213,9 @@
                   <li class="nav-item"> <a class="nav-link" href="{{route('GETLISTEETABLISSEMENT')}}"> Liste</a></li>
                 </ul>
               </div>
-            </li>
+            </li> 
+
+          @endif
           
             
             <li class="nav-item sidebar-user-actions">
@@ -207,8 +228,9 @@
            
             <li class="nav-item sidebar-user-actions">
               <div class="sidebar-user-menu">
-                <a href="#" class="nav-link"><i class="mdi mdi-logout menu-icon"></i>
-                  <span class="menu-title">Log Out</span></a>
+                <!-- <a href="#" class="nav-link"><i class="mdi mdi-logout menu-icon"></i> -->
+
+                
               </div>
             </li>
           </ul>

@@ -2,7 +2,7 @@
 <div class="main-panel">
           <div class="content-wrapper">
             <div class="page-header">
-              <h3 class="page-title"> Ajouter une tache </h3>
+              <h3 class="page-title"> Modifier mes informations </h3>
              
             </div>
             
@@ -28,39 +28,36 @@
                               {{session('notification.message')}}
                         </div>
                     @endif
-                    <form class="forms-sample" method="POST" action="{{route('ADDTACHE')}}">
+                    <form class="forms-sample" method="POST" action="{{route('UPDATEMESINFORMATIONS')}}" enctype="multipart/form-data">
 
                     @csrf
-                      <div class="form-group">
-                        <label for="exampleInputName1">nom</label>
-                        <input type="text" name="nom" class="form-control" id="exampleInputName1" placeholder="Entrer le nom de la tache ">
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputEmail3">Date debut</label>
-                        <input type="date" name="datedebut" class="form-control" id="exampleInputEmail3">
-                      </div>
+                
 
+                      
+                  
+                    
 
                       <div class="form-group">
-                        <label for="exampleInputEmail3">Date fin</label>
-                        <input type="date" name="datefin" class="form-control" id="exampleInputEmail3">
+                        <label for="exampleInputName1">Email</label>
+                        <input type="email" name="email" class="form-control" id="exampleInputName1" value="{{auth()->user()->email}}">
                       </div>
 
-
+                   
 
 
                       <div class="form-group">
-                                <select name="stagiaire" class="form-control" id="">
-                                            @foreach($allstagiare as $data)
-                                                    <option value="{{$data->id}}">{{$data->nom_user}} {{$data->prenom_user}}</option>
-
-                                            @endforeach
-
-                                </select>
+                        <label for="exampleInputName1">Photo</label>
+                        <input type="file" name="photo" class="form-control" id="exampleInputName1" placeholder="Entrer la photo ">
                       </div>
+
+                      <div class="form-group">
+                        <label for="exampleInputName1">Password</label>
+                        <input type="password" name="password" class="form-control" id="exampleInputName1" placeholder="Entrer le password ">
+                      </div>
+
 
                   
-                      <button type="submit" class="btn btn-primary mr-2">Creer</button>
+                      <button type="submit" class="btn btn-primary mr-2">Modifier</button>
                       <button class="btn btn-light">Cancel</button>
                     </form>
                   </div>
