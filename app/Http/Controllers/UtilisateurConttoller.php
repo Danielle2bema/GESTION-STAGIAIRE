@@ -15,6 +15,13 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Encadreur;
 use App\Models\Stagiaire;
 use App\Models\Niveau;
+use App\Models\Etablissement;
+use App\Models\Stage;
+use App\Models\Tache;
+use App\Models\Domaine;
+
+
+
 use Illuminate\Support\Facades\DB;
 class UtilisateurConttoller extends Controller
 {
@@ -22,7 +29,43 @@ class UtilisateurConttoller extends Controller
 
     public function GETDAHSBOARD()
     {
-        return view('dashboard');
+
+        if(auth()->user()->role==='stagiaire')
+        {
+            $id = auth()->user()->id;
+            $stagiaire =  Stagiaire::where('stagiaires.user_id',$id)->get();
+            $idstagiaire = $stagiaire->first();
+            $ids = $idstagiaire->id;
+            $stagestgiaire = Stage::where('stages.stagiare_id',$ids)->get();
+            $tachestagiaire =  Tache::where('taches.stagiare_id',$ids)->get();
+
+
+        } else {
+                $stagestgiaire=0;
+                $tachestagiaire=0;
+
+        }
+        $totalstagiaire = Stagiaire::All();
+        $totalencadreur = Encadreur::All();
+        $totalniveau =  Niveau::All();
+        $totalstage =   Stage::all();  
+        $totaltache =  Tache::All();
+        $totaldomaine =  Domaine::All();
+        $totaletablissement = Etablissement::all();
+
+
+        return view('dashboard',[
+            'totalstagiaire'=>$totalstagiaire,
+            'totalencadreur'=>$totalencadreur,
+            'totalniveau'=>$totalniveau,
+            'totalstage'=>$totalstage,
+            'totaltache'=>$totaltache,
+            'totaletablissement'=>$totaletablissement,
+            'totaldomaine'=>$totaldomaine,
+            'stagestgiaire'=>$stagestgiaire,
+            'tachestagiaire'=>$tachestagiaire
+
+        ]);
     }
 
     public function GETPAGEHEADER()

@@ -217,14 +217,7 @@
 
           @endif
           
-            
-            <li class="nav-item sidebar-user-actions">
-              <div class="sidebar-user-menu">
-                <a href="#" class="nav-link"><i class="mdi mdi-settings menu-icon"></i>
-                  <span class="menu-title">Settings</span>
-                </a>
-              </div>
-            </li>
+        
            
             <li class="nav-item sidebar-user-actions">
               <div class="sidebar-user-menu">

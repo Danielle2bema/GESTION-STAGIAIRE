@@ -54,7 +54,8 @@ class TacheController extends Controller
             'encadreur_id'=>$idencadreur,
             'stagiare_id'=>$request->stagiaire,
             'date_debut_tache'=>$request->datedebut,
-            'date_fin_tache'=>$request->datefin
+            'date_fin_tache'=>$request->datefin,
+            'statut_tache'=>0
             
         ]);
         session()->flash('notification.message',sprintf("Tache crée avec success"));
@@ -148,9 +149,9 @@ class TacheController extends Controller
         {
             $idstagiaire = auth()->user()->id;
             $row = 1;
-            $stagiaireid = Stagiaire::where('stagiaires.user_id',$idstagiaire);
-            $id = $stagiaireid->first();
-            $ids = $id->id;
+            $stagiaireid = Stagiaire::where('stagiaires.user_id',$idstagiaire)->get();
+            $idt = $stagiaireid->first();
+            $ids = $idt->id;
 
             $datatache =  Tache::where('taches.stagiare_id',$ids)->get();
 

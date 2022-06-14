@@ -59,6 +59,10 @@
                                                             <button type="submit"><i class="mdi mdi-delete"></i></button>
                                                       </form>
                                                  </div>
+
+                                                      <div class="col-sm-6 col-md-4 col-lg-3">
+                                                             <a href="{{route('GETPAGESEENOTEBYTACHEID',['id'=>$listetaches->id])}}" ><i style="margin-left:25px" class="mdi mdi-eye"></i></a>
+                                                      </div>
                                             </td>
                                     </tr>
                             @endforeach

@@ -22,10 +22,10 @@ class NoteController extends Controller
         $row = 1;
 
         $informationsStagiaire = DB::table('users')
-    
         ->join('stagiaires','users.id','=','stagiaires.user_id')
         ->join('taches','stagiaires.id','=','taches.stagiare_id')
         ->select('stagiaires.id','taches.nom_tache','users.nom_user','users.prenom_user')
+        ->where('taches.statut_tache',0)
         ->orderBy('taches.id','desc')
         ->get();
 
@@ -35,7 +35,10 @@ class NoteController extends Controller
         ->join('stagiaires','users.id','=','stagiaires.user_id')
         ->join('taches','stagiaires.id','=','taches.stagiare_id')
         ->select('taches.id')
+        ->where('taches.statut_tache',0)
+
         ->orderBy('taches.id','desc')
+
         ->get();
 
       //  die($tache);
@@ -76,6 +79,12 @@ class NoteController extends Controller
                     ]
                     );
 
+
+                    $tache = Tache::find($idtache);
+                    $tache->update([
+                        'statut_tache'=>1
+                    ]);
+
                     session()->flash('notification.message',sprintf("Note attribuée avec success"));
                     session()->flash('notification.type','success');
                     return redirect()->route('GETPAGEADDNOTES');
@@ -86,11 +95,7 @@ class NoteController extends Controller
     public function  GETPAGEVOIRNOTE()
     {
         $idtache = $_GET['id'];
-
-        $tache =  Note::where('id',$idtache)
-   
-        ->get();
-
+        $tache =  Note::where('notes.tache_id',$idtache)->get();
         return view('note.voirnote',[
             'tache'=>$tache   
         ]);
@@ -114,5 +119,24 @@ class NoteController extends Controller
             'information'=>$information
         ]);
     }
+
+    /*** function qui permet a l'encadreur de voir la  note affecte a un etudiant sur une tache*/
+
+
+    public function GETPAGESEENOTEBYTACHEID()
+
+    {
+        $id = $_GET['id'];
+
+        $note = Note::where('notes.tache_id',$id)->get();
+      //  die($note);
+        return view('note.voirnoteetudiant',[
+            'note'=>$note
+        ]);
+
+    }
+
+
+
 
 }

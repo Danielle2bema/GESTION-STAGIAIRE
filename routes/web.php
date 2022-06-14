@@ -127,6 +127,8 @@ Route::post('delete-etablissements/{id}',[EtablissementController::class,'DELETE
 /******************** les routes du controller notes  */
 Route::get('/ajout-note',[NoteController::class,'GETPAGEADDNOTES'])->name('GETPAGEADDNOTES');
 Route::get('voir-note-tache',[NoteController::class,'GETPAGEVOIRNOTE'])->name('GETPAGEVOIRNOTE');
+Route::get('note',[NoteController::class,'GETPAGESEENOTEBYTACHEID'])->name('GETPAGESEENOTEBYTACHEID');
+
 
 Route::get('imprimer',[NoteController::class,'GETPAGEIMPRIMERCARTE'])->name('GETPAGEIMPRIMERCARTE');
 

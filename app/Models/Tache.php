@@ -13,7 +13,8 @@ class Tache extends Model
         'encadreur_id',
         'nom_tache',
         'date_debut_tache',
-        'date_fin_tache'
+        'date_fin_tache',
+        'statut_tache'
 
     ];
 }

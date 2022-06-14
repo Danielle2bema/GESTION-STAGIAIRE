@@ -26,6 +26,8 @@ class CreateTachesTable extends Migration
             $table->text('nom_tache');
             $table->date('date_debut_tache');
             $table->date('date_fin_tache');
+            $table->boolean('statut_tache');
+
             $table->timestamps();
         });
     }
